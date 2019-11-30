@@ -14,13 +14,13 @@ git clone https://github.com/lizhangqu/flutter_lldb.git
  - [Flutter Engine 编译指北](https://fucknmb.com/2019/02/26/Flutter-Engine-%E7%BC%96%E8%AF%91%E6%8C%87%E5%8C%97/)
  - [Compiling-the-engine](https://github.com/flutter/flutter/wiki/Compiling-the-engine)
 
-3、 run your debuggable apk with local engine
+3、 build your debuggable apk with local engine
 
 ```
 ./flutterw build apk --debug --target-platform=android-arm --local-engine-src-path=/Users/lizhangqu/software/flutter_dev/engine/src --local-engine=android_debug_unopt
 ```
 
-4、 install the apk
+4、 install the built apk
 
 ```
 adb install /path/to/sample.apk
@@ -38,9 +38,16 @@ You must set environment named `ANDROID_HOME`.
 
 The package name parameter is required.
 
+Now run `flutter_lldb`
 
 ```
-./flutter_lldb [--port 8888] [--abi armeabi] [--local-engine-src-path=/path/to/engine/src --local-engine=android_debug_unopt] com.example.package_name
+./flutter_lldb [--port 8888] [--abi armeabi] [--local-engine-src-path=/path/to/engine/src] [--local-engine=android_debug_unopt] com.example.package_name
+```
+
+There is a sample command
+
+```
+./flutter_lldb --local-engine-src-path=/Users/lizhangqu/software/flutter_dev/engine/src --local-engine=android_debug_unopt com.vdian.flutter.wdb_buyer.example
 ```
 
 Now you can see the output. There is a visual studio code config. Copy it to launch.json.
@@ -70,7 +77,7 @@ Now you can see the output. There is a visual studio code config. Copy it to lau
 
 7、use visual studio code to remote debug
 
-Install Entensions in Visual Studio Code
+Install Extensions in Visual Studio Code
  - [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools)
  - [CodeLLDB](https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb)
 
