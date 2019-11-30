@@ -14,7 +14,7 @@ git clone https://github.com/lizhangqu/flutter_lldb.git
  - [Flutter Engine 编译指北](https://fucknmb.com/2019/02/26/Flutter-Engine-%E7%BC%96%E8%AF%91%E6%8C%87%E5%8C%97/)
  - [Compiling-the-engine](https://github.com/flutter/flutter/wiki/Compiling-the-engine)
 
-3、 build your debuggable apk with local engine
+3、 build your debuggable apk with the built local engine
 
 ```
 ./flutterw build apk --debug --target-platform=android-arm --local-engine-src-path=/Users/lizhangqu/software/flutter_dev/engine/src --local-engine=android_debug_unopt
@@ -26,11 +26,15 @@ git clone https://github.com/lizhangqu/flutter_lldb.git
 adb install /path/to/sample.apk
 ```
 
-5、 launch the apk
+5、 launch the built apk
 
-Launch the apk yourself.
+You can use `monkey` command to run apk directly.
 
-6、run lldb-server in remote device
+```
+adb shell monkey -p com.example.package_name -v 1
+```
+
+6、run lldb-server in remote device with flutter_lldb
 
 You must set environment named `ANDROID_HOME`.
 
