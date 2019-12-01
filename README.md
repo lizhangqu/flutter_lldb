@@ -17,7 +17,11 @@ git clone https://github.com/lizhangqu/flutter_lldb.git
 3、 build your debuggable apk with the built local engine
 
 ```
-./flutterw build apk --debug --target-platform=android-arm --local-engine-src-path=/Users/lizhangqu/software/flutter_dev/engine/src --local-engine=android_debug_unopt
+./flutterw build apk \
+--debug \
+--target-platform=android-arm \
+--local-engine-src-path=/Users/lizhangqu/software/flutter_dev/engine/src \
+--local-engine=android_debug_unopt
 ```
 
 4、 install the built apk
@@ -45,13 +49,22 @@ The package name parameter is required.
 Now run `flutter_lldb`
 
 ```
-./flutter_lldb [--port 8888] [--abi armeabi] [--android-sdk /path/to/androidSdk] [--local-engine-src-path=/path/to/engine/src] [--local-engine=android_debug_unopt] com.example.package_name
+./flutter_lldb \
+[--port 8888] \
+[--abi armeabi] \
+[--android-sdk /path/to/androidSdk] \
+[--local-engine-src-path=/path/to/engine/src] \
+[--local-engine=android_debug_unopt] \
+com.example.package_name
 ```
 
 There is a sample command
 
 ```
-./flutter_lldb --local-engine-src-path=/Users/lizhangqu/software/flutter_dev/engine/src --local-engine=android_debug_unopt com.vdian.flutter.wdb_buyer.example
+./flutter_lldb \
+--local-engine-src-path=/Users/lizhangqu/software/flutter_dev/engine/src \
+--local-engine=android_debug_unopt \
+com.vdian.flutter.wdb_buyer.example
 ```
 
 Now you can see the output. There is a visual studio code config. Copy it to launch.json.
