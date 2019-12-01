@@ -36,16 +36,16 @@ adb shell monkey -p com.example.package_name -v 1
 
 6、run lldb-server in remote device with flutter_lldb
 
-You must set environment named `ANDROID_HOME`.
+You must set environment named `ANDROID_HOME` or provide the android sdk home with --android-sdk
 
-`[]` in the command is optional and the value is default.
+`[]` in the command is optional and the value is default. android-sdk default use the environment named `ANDROID_HOME`
 
 The package name parameter is required.
 
 Now run `flutter_lldb`
 
 ```
-./flutter_lldb [--port 8888] [--abi armeabi] [--local-engine-src-path=/path/to/engine/src] [--local-engine=android_debug_unopt] com.example.package_name
+./flutter_lldb [--port 8888] [--abi armeabi] [--android-sdk /path/to/androidSdk] [--local-engine-src-path=/path/to/engine/src] [--local-engine=android_debug_unopt] com.example.package_name
 ```
 
 There is a sample command

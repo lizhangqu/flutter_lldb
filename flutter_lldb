@@ -11,7 +11,13 @@ import sys
 """Tool for starting a lldb-server to debug a Flutter engine process on an Android device.
 
 Usage:
-  flutter_lldb --port 8888 --abi armeabi com.example.package_name
+  flutter_lldb \
+  --port 8888 \
+  --abi armeabi \
+  --android-sdk /path/to/androidSdk \
+  --local-engine-src-path /path/to/engine/src \
+  --local-engine android_debug_unopt \
+   com.example.package_name
 """
 
 
@@ -40,26 +46,31 @@ def _get_device_abi(adb_path):
     return abi_output
 
 
-def _get_android_home():
+def _get_android_home(args):
     """get the android sdk home."""
+    android_sdk = args.android_sdk
+    if android_sdk and os.path.exists(android_sdk):
+        return android_sdk
     android_home = os.getenv("ANDROID_HOME")
     if not android_home:
-        raise EnvironmentError("You must set environment with $ANDROID_HOME.")
+        raise EnvironmentError(
+            "You must set environment with $ANDROID_HOME or provide the android sdk home with --android-sdk")
     return android_home
 
 
-def _get_adb_path():
+def _get_adb_path(args):
     """get the adb path."""
-    return os.path.join(_get_android_home(), "platform-tools", "adb")
+    return os.path.join(_get_android_home(args), "platform-tools", "adb")
 
 
-def _get_android_lldb_server(abi):
+def _get_android_lldb_server(args):
     """get the lldb-server path."""
-    lldb_server_root = os.path.join(_get_android_home(), "lldb")
+    lldb_server_root = os.path.join(_get_android_home(args), "lldb")
     if not os.path.exists(lldb_server_root):
-        raise EnvironmentError("LLDB not found in $ANDROID_HOME: %s." % _get_android_home())
+        raise EnvironmentError("LLDB not found in $ANDROID_HOME: %s." % _get_android_home(args))
     latest_lldb_server_version = sorted(os.listdir(lldb_server_root)).pop()
-    return os.path.join(lldb_server_root, latest_lldb_server_version, "android", abi,
+    return os.path.join(lldb_server_root, latest_lldb_server_version, "android",
+                        args.abi or _get_device_abi(_get_adb_path(args)),
                         "lldb-server")
 
 
@@ -68,6 +79,7 @@ LLDB_SERVER_DEVICE_TMP_PATH = '/data/local/tmp/lldb-server'
 
 def main():
     parser = argparse.ArgumentParser(description='lldb debugger tool')
+    parser.add_argument('--android-sdk', type=str, help='android sdk home')
     parser.add_argument('--port', type=int, default=8888, help='remote lldb-server port to listen')
     parser.add_argument('--abi', type=str, choices=['armeabi', 'arm64-v8a', 'x86', 'x86_64'],
                         help="lldb-server executable's abi type")
@@ -80,9 +92,8 @@ def main():
 
 
 def run(args):
-    adb_path = _get_adb_path()
-    device_abi = _get_device_abi(adb_path)
-    lldb_server_local_path = _get_android_lldb_server(args.abi or device_abi)
+    adb_path = _get_adb_path(args)
+    lldb_server_local_path = _get_android_lldb_server(args)
     application_pid = _find_package_pid(adb_path, args.package)
     pid = application_pid or (
             'get pid by execute `adb shell pidof %s` yourself' % args.package)
@@ -90,6 +101,8 @@ def run(args):
     if not application_pid:
         print "You should replace the `pid` in vscode launch.json yourself because I can't get the pid auto"
         print ''
+    else:
+        subprocess.call([adb_path, 'forward', 'tcp:%s' % application_pid, 'jdwp:%s' % application_pid])
 
     if args.local_engine_src_path == '/path/to/engine/src':
         print "You should replace the `add-dsym` in vscode launch.json yourself because I can't get symbol(libflutter.so) path"
