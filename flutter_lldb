@@ -12,7 +12,6 @@ import sys
 
 Usage:
   flutter_lldb \
-  --port 8888 \
   --abi armeabi \
   --android-sdk /path/to/androidSdk \
   --local-engine-src-path /path/to/engine/src \
@@ -80,7 +79,6 @@ LLDB_SERVER_DEVICE_TMP_PATH = '/data/local/tmp/lldb-server'
 def main():
     parser = argparse.ArgumentParser(description='lldb debugger tool')
     parser.add_argument('--android-sdk', type=str, help='android sdk home')
-    parser.add_argument('--port', type=int, default=8888, help='remote lldb-server port to listen')
     parser.add_argument('--abi', type=str, choices=['armeabi', 'arm64-v8a', 'x86', 'x86_64'],
                         help="lldb-server executable's abi type")
     parser.add_argument('--local-engine-src-path', type=str, default='/path/to/engine/src',
@@ -125,7 +123,7 @@ def run(args):
             "pid": "%s",
             "initCommands": [
                 "platform select remote-android",
-                "platform connect connect://localhost:%s"
+                "platform connect unix-abstract-connect:///data/data/%s/debug.socket"
             ],
             "postRunCommands": [
                 "add-dsym %s/libflutter.so",
@@ -134,7 +132,7 @@ def run(args):
         }
     ]
 }
-    """ % (pid, args.port, local_engine_out, local_engine_out, args.local_engine_src_path)
+    """ % (pid, args.package, local_engine_out, local_engine_out, args.local_engine_src_path)
 
     print("visual studio code config, you can copy it to launch.json:\n%s" % vscode_config)
     subprocess.check_call([adb_path, 'push', lldb_server_local_path, LLDB_SERVER_DEVICE_TMP_PATH])
@@ -146,7 +144,9 @@ def run(args):
     subprocess.call([adb_path, 'shell', 'run-as', args.package, 'killall', 'lldb-server'])
 
     subprocess.check_call([adb_path, 'shell', 'run-as', args.package, 'sh', '-c',
-                           "'%s platform --server --listen localhost:%d'" % (lldb_server_device_path, args.port)])
+                           "'%s platform --server --listen unix-abstract:///data/data/%s/debug.socket'" % (
+                               lldb_server_device_path, args.package)])
+
     return 0
 
 

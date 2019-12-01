@@ -50,9 +50,8 @@ Now run `flutter_lldb`
 
 ```
 ./flutter_lldb \
-[--port 8888] \
-[--abi armeabi] \
 [--android-sdk /path/to/androidSdk] \
+[--abi armeabi] \
 [--local-engine-src-path=/path/to/engine/src] \
 [--local-engine=android_debug_unopt] \
 com.example.package_name
@@ -77,10 +76,10 @@ Now you can see the output. There is a visual studio code config. Copy it to lau
             "name": "remote_lldb",
             "type": "lldb",
             "request": "attach",
-            "pid": "30440",
+            "pid": "17331",
             "initCommands": [
                 "platform select remote-android",
-                "platform connect connect://localhost:8888"
+                "platform connect unix-abstract-connect:///data/data/com.vdian.flutter.wdb_buyer.example/debug.socket"
             ],
             "postRunCommands": [
                 "add-dsym /Users/lizhangqu/software/flutter_dev/engine/src/out/android_debug_unopt/libflutter.so",
@@ -113,10 +112,10 @@ Config the .vscode/launch.json by flutter_lldb generated
             "name": "remote_lldb",
             "type": "lldb",
             "request": "attach",
-            "pid": "30440",
+            "pid": "17331",
             "initCommands": [
                 "platform select remote-android",
-                "platform connect connect://localhost:8888"
+                "platform connect unix-abstract-connect:///data/data/com.vdian.flutter.wdb_buyer.example/debug.socket"
             ],
             "postRunCommands": [
                 "add-dsym /Users/lizhangqu/software/flutter_dev/engine/src/out/android_debug_unopt/libflutter.so",
@@ -124,8 +123,7 @@ Config the .vscode/launch.json by flutter_lldb generated
             ],
         }
     ]
-}
-    
+} 
 ```
 
 Now run it and set a breakpoint.
