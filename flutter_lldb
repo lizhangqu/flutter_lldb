@@ -99,8 +99,6 @@ def run(args):
     if not application_pid:
         print "You should replace the `pid` in vscode launch.json yourself because I can't get the pid auto"
         print ''
-    else:
-        subprocess.call([adb_path, 'forward', 'tcp:%s' % application_pid, 'jdwp:%s' % application_pid])
 
     if args.local_engine_src_path == '/path/to/engine/src':
         print "You should replace the `add-dsym` in vscode launch.json yourself because I can't get symbol(libflutter.so) path"
