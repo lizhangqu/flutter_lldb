@@ -17,7 +17,7 @@ git clone https://github.com/lizhangqu/flutter_lldb.git
 3、 build your debuggable apk with the built local engine
 
 ```
-./flutterw build apk \
+/path/to/flutter build apk \
 --debug \
 --target-platform=android-arm \
 --local-engine-src-path=/Users/lizhangqu/software/flutter_dev/engine/src \
