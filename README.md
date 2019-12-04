@@ -91,6 +91,32 @@ Now you can see the output. There is a visual studio code config. Copy it to lau
     
 ```
 
+or 
+
+```
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "remote_lldb",
+            "type": "lldb",
+            "request": "attach",
+            "pid": "15757",
+            "initCommands": [
+                "platform select remote-android",
+                "platform connect unix-abstract-connect:///data/data/com.vdian.flutter.wdb_buyer.example/debug.socket"
+            ],
+            "preRunCommands": [
+                "settings append target.exec-search-paths /Users/lizhangqu/software/flutter_dev/engine/src/out/android_debug_unopt"
+            ],
+        }
+    ]
+}
+```
+
+The first config only can be used for that the libfluttser.so has already been loaded into memory.
+
+
 7、use visual studio code to remote debug
 
 Install Extensions in Visual Studio Code
@@ -125,5 +151,30 @@ Config the .vscode/launch.json by flutter_lldb generated
     ]
 } 
 ```
+
+or 
+
+```
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "remote_lldb",
+            "type": "lldb",
+            "request": "attach",
+            "pid": "15757",
+            "initCommands": [
+                "platform select remote-android",
+                "platform connect unix-abstract-connect:///data/data/com.vdian.flutter.wdb_buyer.example/debug.socket"
+            ],
+            "preRunCommands": [
+                "settings append target.exec-search-paths /Users/lizhangqu/software/flutter_dev/engine/src/out/android_debug_unopt"
+            ],
+        }
+    ]
+}
+```
+
+The first config only can be used for that the libfluttser.so has already been loaded into memory.
 
 Now run it and set a breakpoint.

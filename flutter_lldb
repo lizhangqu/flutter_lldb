@@ -132,7 +132,36 @@ def run(args):
 }
     """ % (pid, args.package, local_engine_out, local_engine_out, args.local_engine_src_path)
 
-    print("visual studio code config, you can copy it to launch.json:\n%s" % vscode_config)
+    print("")
+    print("Visual Studio Code launch configuration.")
+    print("This configuration perform like `attach to debuggable process`.")
+    print("Copy it to .vscode/launch.json if you have already load libflutter.so into memory:\n%s" % vscode_config)
+
+    vscode_config = """
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "remote_lldb",
+            "type": "lldb",
+            "request": "attach",
+            "pid": "%s",
+            "initCommands": [
+                "platform select remote-android",
+                "platform connect unix-abstract-connect:///data/data/%s/debug.socket"
+            ],
+            "preRunCommands": [
+                "settings append target.exec-search-paths %s"
+            ],
+        }
+    ]
+}
+        """ % (pid, args.package, local_engine_out)
+
+    print("Visual Studio Code launch configuration.")
+    print("This configuration perform like `wait for debuggable process`.")
+    print("Copy it to .vscode/launch.json if you have not load libflutter.so into memory:\n%s" % vscode_config)
+
     subprocess.check_call([adb_path, 'push', lldb_server_local_path, LLDB_SERVER_DEVICE_TMP_PATH])
     lldb_server_device_path = '/data/data/%s/lldb-server' % args.package
     subprocess.check_call([adb_path, 'shell', 'run-as', args.package, 'cp', '-F',
