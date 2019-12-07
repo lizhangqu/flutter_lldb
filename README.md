@@ -1,6 +1,8 @@
 # flutter_lldb
 flutter engine remote debug with lldb
 
+See [Flutter Engine C++ 源码调试初探](https://fucknmb.com/2019/12/06/Flutter-Engine-C-%E6%BA%90%E7%A0%81%E8%B0%83%E8%AF%95%E5%88%9D%E6%8E%A2/)
+
 # how to use
 
 1、 clone this repository
