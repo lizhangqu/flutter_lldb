@@ -83,7 +83,7 @@ Now you can see the output. There is a visual studio code config. Copy it to lau
             ],
             "postRunCommands": [
                 "add-dsym /Users/lizhangqu/software/flutter_dev/engine/src/out/android_debug_unopt/libflutter.so",
-                "settings set target.source-map /Users/lizhangqu/software/flutter_dev/engine/src/out/android_debug_unopt /Users/lizhangqu/software/flutter_dev/engine/src"
+                "settings set target.source-map /Users/lizhangqu/software/flutter_dev/engine/src /Users/lizhangqu/software/flutter_dev/engine/src"
             ],
         }
     ]
@@ -101,13 +101,16 @@ or
             "name": "remote_lldb",
             "type": "lldb",
             "request": "attach",
-            "pid": "15757",
+            "pid": "get pid by execute `adb shell pidof com.vdian.flutter.wdb_buyer.example` yourself",
             "initCommands": [
                 "platform select remote-android",
                 "platform connect unix-abstract-connect:///data/data/com.vdian.flutter.wdb_buyer.example/debug.socket"
             ],
             "preRunCommands": [
                 "settings append target.exec-search-paths /Users/lizhangqu/software/flutter_dev/engine/src/out/android_debug_unopt"
+            ],
+            "postRunCommands": [
+                "settings set target.source-map /Users/lizhangqu/software/flutter_dev/engine/src /Users/lizhangqu/software/flutter_dev/engine/src"
             ],
         }
     ]
@@ -145,7 +148,7 @@ Config the .vscode/launch.json by flutter_lldb generated
             ],
             "postRunCommands": [
                 "add-dsym /Users/lizhangqu/software/flutter_dev/engine/src/out/android_debug_unopt/libflutter.so",
-                "settings set target.source-map /Users/lizhangqu/software/flutter_dev/engine/src/out/android_debug_unopt /Users/lizhangqu/software/flutter_dev/engine/src"
+                "settings set target.source-map /Users/lizhangqu/software/flutter_dev/engine/src /Users/lizhangqu/software/flutter_dev/engine/src"
             ],
         }
     ]
@@ -162,13 +165,16 @@ or
             "name": "remote_lldb",
             "type": "lldb",
             "request": "attach",
-            "pid": "15757",
+            "pid": "get pid by execute `adb shell pidof com.vdian.flutter.wdb_buyer.example` yourself",
             "initCommands": [
                 "platform select remote-android",
                 "platform connect unix-abstract-connect:///data/data/com.vdian.flutter.wdb_buyer.example/debug.socket"
             ],
             "preRunCommands": [
                 "settings append target.exec-search-paths /Users/lizhangqu/software/flutter_dev/engine/src/out/android_debug_unopt"
+            ],
+            "postRunCommands": [
+                "settings set target.source-map /Users/lizhangqu/software/flutter_dev/engine/src /Users/lizhangqu/software/flutter_dev/engine/src"
             ],
         }
     ]
