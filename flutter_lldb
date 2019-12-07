@@ -17,6 +17,7 @@ Usage:
   --local-engine-src-path /path/to/engine/src \
   --local-engine android_debug_unopt \
   --build-dir /path/to/your/engine/build/dir \
+  --symbol-dir /path/to/your/engine/symbol/dir \
    com.example.package_name
 """
 
@@ -87,6 +88,7 @@ def main():
     parser.add_argument('--local-engine', type=str, default='android_debug_unopt',
                         help="flutter local engine, such as `android_debug_unopt`")
     parser.add_argument('--build-dir', type=str, help="flutter build dir on build machine if need, default use src.")
+    parser.add_argument('--symbol-dir', type=str, help="flutter symbol dir, default use out/local-engine.")
     parser.add_argument('package', type=str, help="the application's package name run in device")
     return run(parser.parse_args())
 
@@ -133,7 +135,8 @@ def run(args):
     ]
 }
     """ % (
-        pid, args.package, local_engine_out, args.build_dir or args.local_engine_src_path, args.local_engine_src_path)
+        pid, args.package, args.symbol_dir or local_engine_out, args.build_dir or args.local_engine_src_path,
+        args.local_engine_src_path)
 
     print("")
     print("Visual Studio Code launch configuration.")
@@ -162,7 +165,8 @@ def run(args):
         }
     ]
 }
-        """ % (pid, args.package, local_engine_out, args.build_dir or args.local_engine_src_path, args.local_engine_src_path)
+        """ % (
+    pid, args.package, args.symbol_dir or local_engine_out, args.build_dir or args.local_engine_src_path, args.local_engine_src_path)
 
     print("Visual Studio Code launch configuration.")
     print("This configuration perform like `wait for debuggable process`.")

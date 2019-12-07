@@ -54,7 +54,8 @@ Now run `flutter_lldb`
 [--abi armeabi] \
 [--local-engine-src-path=/path/to/engine/src] \
 [--local-engine=android_debug_unopt] \
-[--build-dir=/path/to/your/engine/build/dir/src] \
+[--build-dir=/path/to/your/engine/build] \
+[--symbol-dir=/path/to/your/engine/symbol] \
 com.example.package_name
 ```
 
